@@ -102,6 +102,11 @@ data:
         - source_labels: [__meta_kubernetes_pod_name]
           action: replace
           target_label: kubernetes_pod_name
+        - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_pod_name]
+          regex: (.+);(.+)
+          action: replace
+          target_label: kubernetes_namespaced_name
+          replacement: $1/$2
 
       - job_name: 'kube-state-metrics'
         static_configs:
