@@ -38,6 +38,10 @@ data:
         - source_labels: [__meta_kubernetes_endpoints_name]
           regex: 'node-exporter'
           action: keep
+        - source_labels: [__meta_kubernetes_pod_node_name]
+          action: replace
+          target_label: kubernetes_node_name
+        # sum (rate(node_network_transmit_packets_total{device="eth0",kubernetes_node_name=~".+"}[1m])) by (kubernetes_node_name)
 
       - job_name: 'kubernetes-apiservers'
 
